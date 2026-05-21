@@ -5,12 +5,19 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
+# =========================
+# CONFIGURACIÓN
+# =========================
+
 templates = Jinja2Templates(directory="./templates")
 
 app.mount("/static", StaticFiles(directory="./static"), name="static")
 
 
-@app.get("/")
+# =========================
+# INICIO
+# =========================
+@app.get("/", response_class=HTMLResponse)
 def inicio():
 
     return """
@@ -24,6 +31,9 @@ def inicio():
     """
 
 
+# =========================
+# RUTA /pendientes
+# =========================
 @app.get("/pendientes", response_class=HTMLResponse)
 def pendientes(request: Request):
 
@@ -43,6 +53,9 @@ def pendientes(request: Request):
     )
 
 
+# =========================
+# RUTA /vocales/{frase}
+# =========================
 @app.get("/vocales/{frase}", response_class=HTMLResponse)
 def vocales(request: Request, frase: str):
 
@@ -57,6 +70,9 @@ def vocales(request: Request, frase: str):
     )
 
 
+# =========================
+# RUTA /temperatura/{grados}
+# =========================
 @app.get("/temperatura/{grados}", response_class=HTMLResponse)
 def temperatura(request: Request, grados: int):
 
