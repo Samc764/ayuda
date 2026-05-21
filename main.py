@@ -21,7 +21,7 @@ app.mount("/static", StaticFiles(directory="./static"), name="static")
 def inicio():
 
     return """
-    <h1>Proyecto funcionando ✅</h1>
+    <h1>Proyecto funcionando </h1>
 
     <ul>
         <li><a href="/pendientes">Pendientes</a></li>
