@@ -43,24 +43,12 @@ def inicio():
 # =========================
 # RUTA /pendientes
 # =========================
-@app.get("/pendientes", response_class=HTMLResponse)
-def pendientes(request: Request):
+@app.get("/pendientes")
+def pendientes():
 
-    tareas = [
-        {"descripcion": "Hacer tarea de matemáticas", "completada": False},
-        {"descripcion": "Estudiar inglés", "completada": True},
-        {"descripcion": "Leer un libro", "completada": False},
-        {"descripcion": "Ordenar el cuarto", "completada": True},
-    ]
-
-    return templates.TemplateResponse(
-        "pendientes.html",
-        {
-            "request": request,
-            "tareas": tareas
-        }
-    )
-
+    return """
+    <h1>Funciona pendientes</h1>
+    """
 
 # =========================
 # RUTA /vocales/{frase}
