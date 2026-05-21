@@ -1,32 +1,16 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import os
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
-# =========================
-# CONFIGURACIÓN
-# =========================
+templates = Jinja2Templates(directory="./templates")
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-templates = Jinja2Templates(
-    directory=os.path.join(BASE_DIR, "templates")
-)
-
-app.mount(
-    "/static",
-    StaticFiles(directory=os.path.join(BASE_DIR, "static")),
-    name="static"
-)
+app.mount("/static", StaticFiles(directory="./static"), name="static")
 
 
-# =========================
-# RUTA INICIO
-# =========================
-@app.get("/", response_class=HTMLResponse)
+@app.get("/")
 def inicio():
 
     return """
@@ -40,19 +24,25 @@ def inicio():
     """
 
 
-# =========================
-# RUTA /pendientes
-# =========================
-@app.get("/pendientes")
-def pendientes():
+@app.get("/pendientes", response_class=HTMLResponse)
+def pendientes(request: Request):
 
-    return """
-    <h1>Funciona pendientes</h1>
-    """
+    tareas = [
+        {"descripcion": "Hacer tarea de matemáticas", "completada": False},
+        {"descripcion": "Estudiar inglés", "completada": True},
+        {"descripcion": "Leer un libro", "completada": False},
+        {"descripcion": "Ordenar el cuarto", "completada": True},
+    ]
 
-# =========================
-# RUTA /vocales/{frase}
-# =========================
+    return templates.TemplateResponse(
+        "pendientes.html",
+        {
+            "request": request,
+            "tareas": tareas
+        }
+    )
+
+
 @app.get("/vocales/{frase}", response_class=HTMLResponse)
 def vocales(request: Request, frase: str):
 
@@ -67,9 +57,6 @@ def vocales(request: Request, frase: str):
     )
 
 
-# =========================
-# RUTA /temperatura/{grados}
-# =========================
 @app.get("/temperatura/{grados}", response_class=HTMLResponse)
 def temperatura(request: Request, grados: int):
 
