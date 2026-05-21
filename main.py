@@ -26,15 +26,12 @@ def inicio(request: Request):
 # ======================
 # VOCALES
 # ======================
-@app.get("/vocales/{frase}", response_class=HTMLResponse)
-def vocales(request: Request, frase: str):
+@app.get("/vocales/{frase}")
+def vocales(frase: str):
 
     letras = list(frase)
 
-    return templates.TemplateResponse(
-        "vocales.html",
-        {
-            "request": request,
-            "letras": letras
-        }
-    )
+    return {
+        "frase": frase,
+        "letras": letras
+    }
