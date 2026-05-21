@@ -1,37 +1,31 @@
 from fastapi import FastAPI, Request
-from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 
+# carpeta static
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# carpeta templates
 templates = Jinja2Templates(directory="templates")
 
 
-# =========================
-# RUTA /pendientes
-# =========================
-@app.get("/pendientes", response_class=HTMLResponse)
-def pendientes(request: Request):
-
-    tareas = [
-        {"descripcion": "Hacer tarea de matemáticas", "completada": False},
-        {"descripcion": "Estudiar inglés", "completada": True},
-        {"descripcion": "Leer un libro", "completada": False},
-        {"descripcion": "Ordenar el cuarto", "completada": True},
-    ]
-
-    return templates.TemplateResponse(
-        "pendientes.html",
-        {
-            "request": request,
-            "tareas": tareas
-        }
-    )
+# ======================
+# INICIO
+# ======================
+@app.get("/", response_class=HTMLResponse)
+def inicio(request: Request):
+    return """
+    <h1>Proyecto funcionando</h1>
+    <a href='/vocales/hola'>Ir a vocales</a>
+    """
 
 
-# =========================
-# RUTA /vocales/{frase}
-# =========================
+# ======================
+# VOCALES
+# ======================
 @app.get("/vocales/{frase}", response_class=HTMLResponse)
 def vocales(request: Request, frase: str):
 
@@ -42,30 +36,5 @@ def vocales(request: Request, frase: str):
         {
             "request": request,
             "letras": letras
-        }
-    )
-
-
-# =========================
-# RUTA /temperatura/{grados}
-# =========================
-@app.get("/temperatura/{grados}", response_class=HTMLResponse)
-def temperatura(request: Request, grados: int):
-
-    if grados < 10:
-        estado = "Frío"
-    elif grados < 25:
-        estado = "Templado"
-    elif grados < 35:
-        estado = "Caluroso"
-    else:
-        estado = "Extremo"
-
-    return templates.TemplateResponse(
-        "temperatura.html",
-        {
-            "request": request,
-            "grados": grados,
-            "estado": estado
         }
     )

@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Vocales</title>
+
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-    <h1>Frase</h1>
+<h1>Vocales</h1>
 
-    {% for letra in letras %}
+{% for letra in letras %}
 
-        {% if letra.lower() in ['a', 'e', 'i', 'o', 'u'] %}
-            <strong>{{ letra }}</strong>
-        {% else %}
-            {{ letra }}
-        {% endif %}
+    {% if letra.lower() in ['a','e','i','o','u'] %}
+        <strong>{{ letra }}</strong>
+    {% else %}
+        {{ letra }}
+    {% endif %}
 
-    {% endfor %}
+{% endfor %}
 
 </body>
 </html>
