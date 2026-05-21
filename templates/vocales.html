@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Vocales</title>
+</head>
+<body>
+
+    <h1>Frase</h1>
+
+    {% for letra in letras %}
+
+        {% if letra.lower() in ['a', 'e', 'i', 'o', 'u'] %}
+            <strong>{{ letra }}</strong>
+        {% else %}
+            {{ letra }}
+        {% endif %}
+
+    {% endfor %}
+
+</body>
+</html>
